@@ -6,3 +6,8 @@ services:
     branch: main
     dockerfilePath: ./backend/Dockerfile
     autoDeploy: true
+
+databases:
+  - name: auven-db
+    plan: free
+    region: oregon
