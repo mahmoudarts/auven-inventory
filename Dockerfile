@@ -19,10 +19,12 @@ COPY . /var/www/
 # Copy Composer from official image
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# Debug Composer installation
+# Debug Composer installation and always show logs
 RUN if [ -f /var/www/backend/composer.json ]; then \
       cd /var/www/backend && \
-      composer install --no-dev --no-interaction --optimize-autoloader -vvv; \
+      composer install --no-dev --no-interaction --optimize-autoloader -vvv || true; \
+      echo "===== COMPOSER EXIT CODE: $? ====="; \
+      ls -la /var/www/backend/vendor || true; \
     fi
 
 
