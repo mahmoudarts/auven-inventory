@@ -22,7 +22,9 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 # Install Composer dependencies for the backend
 RUN if [ -f /var/www/backend/composer.json ]; then \
       cd /var/www/backend && composer install --no-dev --no-interaction --optimize-autoloader; \
+      cp -r /var/www/backend/vendor /var/www/vendor; \
     fi
+
 
 # Copy the backend/public folder (web root)
 RUN rm -rf /var/www/html/* || true
