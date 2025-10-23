@@ -19,14 +19,12 @@ COPY . /var/www/
 # Copy Composer from official image
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# ✅ Install Composer dependencies safely and move vendor folder
+# Debug Composer installation
 RUN if [ -f /var/www/backend/composer.json ]; then \
       cd /var/www/backend && \
-      composer install --no-dev --no-interaction --optimize-autoloader || exit 1; \
-      if [ -d /var/www/backend/vendor ]; then \
-        mkdir -p /var/www/vendor && cp -r /var/www/backend/vendor/* /var/www/vendor/; \
-      fi; \
+      composer install --no-dev --no-interaction --optimize-autoloader -vvv; \
     fi
+
 
 # Copy the backend/public folder (web root)
 RUN rm -rf /var/www/html/* || true
